@@ -1,0 +1,64 @@
+.card {
+    //box-shadow: -3px 3px 0 0 orangered;
+    width: 10vw;
+    max-width: 600px;
+    min-width: 200px;
+    padding: 30px;
+    margin: 30px auto;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    h4 {
+        margin: 0 0 15px 0;
+    }
+    input[type="text"],
+    input[type="password"] {
+        font-size: 18px;
+        margin-bottom: 15px
+    }
+    .btn-primary {
+        float: left;
+    }
+    .btn-secondary {
+        float: right;
+    }
+    .card .card input[type="text"],
+    .card input[type="password"] {
+        font-size: 18px;
+        margin-bottom: 15px
+    }
+    .card-container {
+        padding: 30px;
+    }
+    h3 {
+        margin: 0 0 15px 0;
+        color: grey;
+    }
+}
+
+@media screen and (max-width:842px) {
+    .card {
+        max-width: 70vw;
+        min-width: 300px;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        input[type="text"],
+        input[type="password"] {
+            font-size: 20px;
+            margin-bottom: 15px
+        }
+        button {
+            font-size: 1.3em;
+            width: 100%;
+        }
+        .button-group {
+            min-width: 300px;
+            width: 100%;
+        }
+        h4 {
+            margin: 0 0 15px 0;
+        }
+    }
+}
