@@ -57,23 +57,23 @@ class LogIn extends Component{
         <form>
             {/* <app-inline-notification className="notification float-none" [notifications]="getnotifications()" (OnNotificationRemoved)="onNotificationRemoved($event)"> </app-inline-notification> */}
             <div className="form-group">
-                <label for="username">USERNAME</label> 
-                <input placeholder="USERNAME" auto-fill tabindex="1" name="username" type="text" value = {this.state.username} onChange = {(e) => this.handleChange(e)}  autofocus className="form-control" id="username"/>
+                
+                <input placeholder="USERNAME"   name="username" type="text" value = {this.state.username} onChange = {(e) => this.handleChange(e)}  className="form-control" id="username"/>
                 <div >
                     <small  className="text-danger">USERNAME is required</small>
                 </div>
 
             </div>
             <div className="form-group">
-                <label for="password">PASSWORD</label> 
-                <input placeholder="PASSWORD" auto-fill tabindex="2" value = {this.state.password} onChange = {(e) => this.handleChange(e)} name="password" type="password" className="form-control" id="password"/>
+                
+                <input placeholder="PASSWORD"   value = {this.state.password} onChange = {(e) => this.handleChange(e)} name="password" type="password" className="form-control" id="password"/>
                 <div >
                     <small  className="text-danger">PASSWORD is required</small>
                 </div>
             </div>
             <div className="button-group">
                 <div className="float-left">
-                    <button tabindex="3"  className="btn btn-danger float-left" onClick={(e)=> this.handleSubmit(e)} type="submit">Login</button>
+                    <button   className="btn btn-danger float-left" onClick={(e)=> this.handleSubmit(e)} type="submit">Login</button>
                     <img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
                     />
                 </div>

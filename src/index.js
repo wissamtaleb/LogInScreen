@@ -28,8 +28,8 @@ axios.interceptors.request.use(request => {
 
 axios.interceptors.response.use(response => {
 
-    if(response.headers.get("token")){
-        const token = response.headers.get("token");
+    if(response.headers.token){
+        const token = response.headers.token;
         cookie.set("id_token",token);
         const tokenInfo = jwt_decode(token);
         const expireDate = tokenInfo.exp;
