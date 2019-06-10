@@ -2,6 +2,11 @@ import React from 'react';
 import {Component} from 'react';
 import axios from 'axios';
 import './LogIn.scss'
+import LogInService from '../../services/logInService';
+import ResponseStatus from './../../enums/ResponseStatus';
+import LoginResponseStatus from './../../enums/LoginResponseStatus';
+import Cookies from 'universal-cookie';
+import * as jwt_decode from 'jwt-decode';
 
 class LogIn extends Component{
 
@@ -45,6 +50,11 @@ class LogIn extends Component{
                 passwordError: "PASSWORD is required"
             })
         }
+        else if(this.state.password.length < 8){
+            this.setState({
+                passwordError: "PASSWORD must be at least 8 characters long"
+            })
+        }
         else{
             this.setState({
                 passwordError: ''
@@ -52,14 +62,34 @@ class LogIn extends Component{
         }
     }
 
+    setSession(response){
+
+        let cookies = new Cookies
+        if(response && response.status === ResponseStatus.Success && response.payload.status === LoginResponseStatus.Success){
+
+            cookies.set('id_token', response.payload.token);
+            const tokenInfo = jwt_decode(response.payload.token);
+            const expireDate = tokenInfo.exp;
+            cookies.set('expires_at', JSON.stringify(expireDate.valueOf()) );
+            cookies.set('currentUser', JSON.stringify(response.payload.thisUser) );
+
+
+
+        }
+    }
+
     handleSubmit(e){
+
+        let loginService = new LogInService;
+
+        var self = this;
 
         e.preventDefault();
         this.setState({
             loading: true
         })
 
-        var self = this;
+       
         setTimeout(function(){
             self.setState({
 
@@ -71,12 +101,17 @@ class LogIn extends Component{
             let username = self.state.username;
             let password = self.state.password;
     
-            let loginCredentials = {
-                username: username,
-                password: password
-            }
-            axios.post('http://localhost:8080/Quiz_app-0.0.1-SNAPSHOT/index/logIn', loginCredentials).then(response => {
-                 console.log(response.data);
+            // let loginCredentials = {
+            //     username: username,
+            //     password: password
+            // }
+            // axios.post('http://localhost:8080/Quiz_app-0.0.1-SNAPSHOT/index/logIn', loginCredentials).then(response => {
+            //      console.log(response.data);
+            // })
+
+            loginService.login(username,password).then(response => {
+                self.setSession(response.data);
+                console.log(response.data)
             })
     
         } },1000)
@@ -118,7 +153,7 @@ class LogIn extends Component{
             </div>
             <div className="button-group">
                 <div className="float-left">
-                    <button   className="btn btn-danger float-left" onClick={(e)=> this.handleSubmit(e)} type="submit">Login</button>
+                    <button className = {this.state.loading ? "defocus btn btn-danger float-left" : "btn btn-danger float-left"}  onClick={(e)=> this.handleSubmit(e)} type="submit">Login</button>
                     {this.state.loading && <img  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
                     />}
                 </div>

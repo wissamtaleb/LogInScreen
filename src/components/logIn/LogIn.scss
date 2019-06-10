@@ -36,6 +36,10 @@
     }
 }
 
+.defocus{
+    opacity: 0.5;
+}
+
 @media screen and (max-width:842px) {
     .card {
         max-width: 70vw;
