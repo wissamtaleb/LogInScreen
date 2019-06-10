@@ -11,14 +11,19 @@ class LogInService{
 
         let credentials = {
             username: username,
-            password: password
+            password: password,
+            className: 'LoginRequestPayload'
+        }
+
+        let payload = {
+            payload: credentials
         }
 
        let headers = {
             'Content-Type':  'application/json',
             'Authorization' : 'id_token'
           };
-       return axios.post('http://localhost:8080/Quiz_app-0.0.1-SNAPSHOT/index/logIn', credentials, headers);
+       return axios.post('http://localhost:8081/core-services/login', payload, headers);
     }
 }
 

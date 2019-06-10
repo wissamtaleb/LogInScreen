@@ -7,6 +7,7 @@ import ResponseStatus from './../../enums/ResponseStatus';
 import LoginResponseStatus from './../../enums/LoginResponseStatus';
 import Cookies from 'universal-cookie';
 import * as jwt_decode from 'jwt-decode';
+import { withRouter, Redirect } from 'react-router-dom';
 
 class LogIn extends Component{
 
@@ -15,11 +16,13 @@ class LogIn extends Component{
         password: '',
         usernameError: '',
         passwordError: '',
-        loading: false
+        loading: false,
+        toMain: false
     }
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+        
     }
 
 
@@ -64,14 +67,18 @@ class LogIn extends Component{
 
     setSession(response){
 
-        let cookies = new Cookies
-        if(response && response.status === ResponseStatus.Success && response.payload.status === LoginResponseStatus.Success){
+        let cookies = new Cookies();
+        let responseStatus = new ResponseStatus();
+        let loginResponseStatus = new LoginResponseStatus();
+       
+        if(response && response.status === responseStatus.Success && response.payload.status === loginResponseStatus.Success){
 
             cookies.set('id_token', response.payload.token);
             const tokenInfo = jwt_decode(response.payload.token);
             const expireDate = tokenInfo.exp;
             cookies.set('expires_at', JSON.stringify(expireDate.valueOf()) );
             cookies.set('currentUser', JSON.stringify(response.payload.thisUser) );
+
 
 
 
@@ -109,9 +116,28 @@ class LogIn extends Component{
             //      console.log(response.data);
             // })
 
+            let cookies = new Cookies();
+            let responseStatus = new ResponseStatus();
+            let loginResponseStatus = new LoginResponseStatus();
             loginService.login(username,password).then(response => {
                 self.setSession(response.data);
-                console.log(response.data)
+
+                if (response.data && response.data.status === responseStatus.Success
+                    && response.data.payload.status === loginResponseStatus.Success){
+                
+                //         let { history } = self.props;
+                 
+                //         history.push({
+                 
+                //             pathname: '/main'
+                //   });
+
+                self.setState({
+                    toMain: true,
+                })
+}
+                console.log(response.data);
+                
             })
     
         } },1000)
@@ -119,6 +145,10 @@ class LogIn extends Component{
 }
     
     render(){
+
+        if (this.state.toMain){
+            return <Redirect to ="/main"/>
+        }
         return(<div>
             
             {/* <form>
@@ -171,4 +201,4 @@ class LogIn extends Component{
 
 }
 
-export default LogIn
+export default withRouter(LogIn)
