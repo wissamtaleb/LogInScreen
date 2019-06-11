@@ -8,6 +8,10 @@ class Main extends Component{
         super();
     }
 
+    componentDidMount(){
+        console.log("Main mounted");
+    }
+
     render(){
         return (<h1>Main Component</h1>)
     }

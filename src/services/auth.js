@@ -6,24 +6,31 @@ class Auth{
 
     constructor(){
 
+        this.cookies = new Cookies();
         
     }
 
     isAuthenticated(){
 
-        let cookies = new Cookies();
-        console.log(moment());
-        console.log(this.getExpiration());
-        console.log(moment().isBefore(this.getExpiration()));
-         return (cookies.get('id_token') != null && cookies.get('id_token') !== '' && moment().isBefore(this.getExpiration()));
+        // const cookies = new Cookies();
+        
+
+         return (this.cookies.get('id_token') != null && this.cookies.get('id_token') !== '' && new Date().valueOf() < this.getExpiration().valueOf() );
         
     }
 
-    getExpiration() {
-        let cookies = new Cookies();
-        const expiration = cookies.get('expires_at');
-        const expiresAt = JSON.parse(expiration);
-        return moment(expiresAt);
+  getExpiration() {
+       
+   
+
+
+    const expiration = this.cookies.get('expires_at');
+
+    const expiresAt = JSON.parse(expiration);
+
+    const date = new Date(0);
+    date.setUTCSeconds(expiresAt);
+    return date;
      }
 }
 

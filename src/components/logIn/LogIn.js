@@ -8,6 +8,9 @@ import LoginResponseStatus from './../../enums/LoginResponseStatus';
 import Cookies from 'universal-cookie';
 import * as jwt_decode from 'jwt-decode';
 import { withRouter, Redirect } from 'react-router-dom';
+import InlineNotifications from './../inline-notifications/InlineNotifications';
+import InlineNotification from './../../classes/InlineNotification';
+import InlineNotificationType from './../../enums/InlineNotificationType';
 
 class LogIn extends Component{
 
@@ -17,12 +20,13 @@ class LogIn extends Component{
         usernameError: '',
         passwordError: '',
         loading: false,
-        toMain: false
+        toMain: false,
+        notifications: []
     }
 
     constructor(props){
         super(props);
-        
+       
     }
 
 
@@ -136,18 +140,47 @@ class LogIn extends Component{
                     toMain: true,
                 })
 }
-                console.log(response.data);
+                else{
+
+                    let error = response.data.message;
+                    let inline = new InlineNotificationType();
+                    let myNotification = new InlineNotification(generateRandomId(),'Login Failed', error, inline.ERROR)
+                    let newNotifications = self.state.notifications;
+                    newNotifications.push(myNotification);
+                    self.setState({
+
+                        notifications: newNotifications,
+                    })
+
+                }
                 
+            }).catch(error => {
+
+                // console.log(error);
             })
     
         } },1000)
+
+        
      
+}
+
+remove= (e) =>{
+    let key = e.target.parentElement.id;
+    let myNotifications = this.state.notifications;
+    var data = myNotifications.filter(x => {
+        return x.id != key;
+      })
+
+   this.setState({
+       notifications: data
+   })
 }
     
     render(){
 
         if (this.state.toMain){
-            return <Redirect to ="/main"/>
+            return <Redirect to ='/main'/>
         }
         return(<div>
             
@@ -166,6 +199,7 @@ class LogIn extends Component{
         <br/>
         <form>
             {/* <app-inline-notification className="notification float-none" [notifications]="getnotifications()" (OnNotificationRemoved)="onNotificationRemoved($event)"> </app-inline-notification> */}
+            <InlineNotifications notifications = {this.state.notifications} remove = {this.remove}></InlineNotifications>
             <div className="form-group">
                 
                 <input placeholder="USERNAME"   error = "usernameError" name="username" type="text" value = {this.state.username} onChange = {(e) => this.handleChange(e)}  className="form-control" id="username"/>
@@ -201,4 +235,7 @@ class LogIn extends Component{
 
 }
 
+function generateRandomId(){
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
 export default withRouter(LogIn)

@@ -24,6 +24,11 @@ axios.interceptors.request.use(request => {
 
     
     return request;
+},
+error =>{
+    // console.log("wissam taleb");
+     console.log(error);
+    Promise.reject(error);
 })
 
 axios.interceptors.response.use(response => {
@@ -39,6 +44,11 @@ axios.interceptors.response.use(response => {
     console.log(response);
     return response;
     
+},
+error =>{
+    console.log("wissam taleb");
+     console.log(error.headers);
+    Promise.reject(error);
 })
 ReactDOM.render(<App />, document.getElementById('root'));
 
