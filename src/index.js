@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import $ from 'jquery';
+
+import * as $ from 'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import App from './App';
@@ -27,7 +28,7 @@ axios.interceptors.request.use(request => {
 },
 error =>{
     // console.log("wissam taleb");
-     console.log(error);
+    
     Promise.reject(error);
 })
 
@@ -41,13 +42,16 @@ axios.interceptors.response.use(response => {
         cookie.set("expires_at",  JSON.stringify(expireDate.valueOf())  );
 
     }
-    console.log(response);
+    
     return response;
     
 },
 error =>{
     console.log("wissam taleb");
-     console.log(error.headers);
+    
+    let myError = JSON.parse(JSON.stringify(error));
+    
+    
     Promise.reject(error);
 })
 ReactDOM.render(<App />, document.getElementById('root'));
