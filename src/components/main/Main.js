@@ -9,7 +9,7 @@ class Main extends Component{
 
         super();
         this.state = {
-            data: [],
+            data: null,
         }
     }
 
@@ -18,16 +18,21 @@ class Main extends Component{
         mainService.getMenu().then(response =>{
             this.setState({
 
-                data: response.data
+                data: response.data.payload
             })
-            console.log(response.data);
+            
         })
         console.log("Main mounted");
 
     }
 
     render(){
-        return (<Header data = {this.state.data}></Header>)
+        if(this.state.data){
+         return (<Header data = {this.state.data}></Header>)
+        }
+        else{
+            return <></>
+        }
     }
 }
 

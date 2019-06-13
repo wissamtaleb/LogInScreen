@@ -8,6 +8,7 @@
     };
     $.fn.bootnavbar = function() {
 
+        console.log("jquery enabled");
         var screen_width = $(document).width();
 
         if(screen_width >= defaults.lg){
